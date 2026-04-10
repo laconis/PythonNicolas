@@ -22,6 +22,11 @@ CREATE TABLE videos (
     filename VARCHAR(255)
 );
 
+ALTER TABLE videos
+ADD UNIQUE (filename);
+
+
+
  #Script reel 
 import re
 import mysql.connector

@@ -11,6 +11,30 @@ def list_dirs_recursive(path):
         for d in dirs:
             print(os.path.join(root, d))
 
+
+def supprimer_fichiers_extension(racine, extension):
+    """
+    Supprime récursivement tous les fichiers ayant l'extension donnée.
+    Exemple : supprimer_fichiers_extension("/tmp", ".log")
+    """
+    for dossier, sous_dossiers, fichiers in os.walk(racine):
+        for fichier in fichiers:
+            if fichier.endswith(extension):
+                chemin = os.path.join(dossier, fichier)
+                try:
+                    os.remove(chemin)
+                    print(f"Supprimé : {chemin}")
+                except OSError as e:
+                    print(f"Erreur suppression {chemin} : {e}")
+
+def supprimer_vieux(racine, jours=30):
+    limite = time.time() - jours * 86400
+    for dossier, _, fichiers in os.walk(racine):
+        for f in fichiers:
+            chemin = os.path.join(dossier, f)
+            if os.path.getmtime(chemin) < limite:
+                os.remove(chemin)
+               
 def delete_empty_dirs(path):
     for root, dirs, files in os.walk(path, topdown=False):
         for d in dirs:
